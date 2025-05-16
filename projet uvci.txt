@@ -1,0 +1,160 @@
+1. Tables Principales
+1.1 COMMUNE
+sql
+CREATE TABLE COMMUNE (
+    Id_commune INT PRIMARY KEY AUTO_INCREMENT,
+    Nom_commune VARCHAR(100) NOT NULL UNIQUE,
+    Code_postal CHAR(5) NOT NULL,
+    Type_commune ENUM('Urbain', 'Rural') DEFAULT 'Urbain',
+    Logo_commune VARCHAR(255),
+    Date_creation DATE
+);
+1.2 CITOYEN
+sql
+CREATE TABLE CITOYEN (
+    Id_citoyen INT PRIMARY KEY AUTO_INCREMENT,
+    Nom VARCHAR(100) NOT NULL,
+    Prenom VARCHAR(100) NOT NULL,
+    Email VARCHAR(255) UNIQUE,
+    Telephone VARCHAR(20),
+    Date_naissance DATE NOT NULL,
+    Lieu_naissance VARCHAR(200),
+    -- Parents
+    Nom_pere VARCHAR(100),
+    Prenom_pere VARCHAR(100),
+    Nom_mere VARCHAR(100),
+    Prenom_mere VARCHAR(100),
+    -- Liaison commune
+    Id_commune INT NOT NULL,
+    FOREIGN KEY (Id_commune) REFERENCES COMMUNE(Id_commune)
+);
+2. Actes Administratifs
+2.1 EXTRAIT_NAISSANCE
+sql
+CREATE TABLE EXTRAIT_NAISSANCE (
+    Id_extrait INT PRIMARY KEY AUTO_INCREMENT,
+    Numero_acte VARCHAR(50) UNIQUE NOT NULL,
+    Date_etablissement DATE NOT NULL,
+    Id_citoyen INT NOT NULL,
+    Id_commune INT NOT NULL,
+    Officier_etat_civil VARCHAR(200),
+    FOREIGN KEY (Id_citoyen) REFERENCES CITOYEN(Id_citoyen),
+    FOREIGN KEY (Id_commune) REFERENCES COMMUNE(Id_commune)
+);
+2.2 ACTE_MARIAGE
+sql
+CREATE TABLE ACTE_MARIAGE (
+    Id_acte INT PRIMARY KEY AUTO_INCREMENT,
+    Numero_acte VARCHAR(50) UNIQUE NOT NULL,
+    Date_mariage DATE NOT NULL,
+    Id_conjoint1 INT NOT NULL,
+    Id_conjoint2 INT NOT NULL,
+    Id_commune INT NOT NULL,
+    Temoins JSON,
+    FOREIGN KEY (Id_conjoint1) REFERENCES CITOYEN(Id_citoyen),
+    FOREIGN KEY (Id_conjoint2) REFERENCES CITOYEN(Id_citoyen),
+    FOREIGN KEY (Id_commune) REFERENCES COMMUNE(Id_commune),
+    CHECK (Id_conjoint1 <> Id_conjoint2)
+);
+2.3 ACTE_DECES
+sql
+CREATE TABLE ACTE_DECES (
+    Id_deces INT PRIMARY KEY AUTO_INCREMENT,
+    Numero_acte VARCHAR(50) UNIQUE NOT NULL,
+    Date_deces DATE NOT NULL,
+    Id_defunt INT NOT NULL,
+    Id_commune INT NOT NULL,
+    Cause_deces VARCHAR(255),
+    Declarant VARCHAR(200),
+    FOREIGN KEY (Id_defunt) REFERENCES CITOYEN(Id_citoyen),
+    FOREIGN KEY (Id_commune) REFERENCES COMMUNE(Id_commune)
+);
+3. Gestion des Timbres
+3.1 TIMBRE
+sql
+CREATE TABLE TIMBRE (
+    Id_timbre INT PRIMARY KEY AUTO_INCREMENT,
+    Code_timbre CHAR(20) UNIQUE NOT NULL,
+    Date_creation DATETIME DEFAULT CURRENT_TIMESTAMP,
+    Statut ENUM('Valide', 'Utilise', 'Expire') DEFAULT 'Valide',
+    Id_citoyen INT NOT NULL,
+    Id_extrait INT,
+    Id_acte_mariage INT,
+    Id_acte_deces INT,
+    FOREIGN KEY (Id_citoyen) REFERENCES CITOYEN(Id_citoyen),
+    FOREIGN KEY (Id_extrait) REFERENCES EXTRAIT_NAISSANCE(Id_extrait),
+    FOREIGN KEY (Id_acte_mariage) REFERENCES ACTE_MARIAGE(Id_acte),
+    FOREIGN KEY (Id_acte_deces) REFERENCES ACTE_DECES(Id_deces),
+    CONSTRAINT CHK_Usage CHECK (
+        (Id_extrait IS NOT NULL AND Id_acte_mariage IS NULL AND Id_acte_deces IS NULL) OR
+        (Id_extrait IS NULL AND Id_acte_mariage IS NOT NULL AND Id_acte_deces IS NULL) OR
+        (Id_extrait IS NULL AND Id_acte_mariage IS NULL AND Id_acte_deces IS NOT NULL)
+    )
+);
+4. Administration Simplifiée
+4.1 ADMIN (Rôle unique)
+sql
+CREATE TABLE ADMIN (
+    Id_admin INT PRIMARY KEY AUTO_INCREMENT,
+    Pseudo_admin VARCHAR(50) UNIQUE NOT NULL,
+    Mot_de_passe VARCHAR(255) NOT NULL,  -- BCrypt
+    Email_admin VARCHAR(100) UNIQUE NOT NULL,
+    Date_creation DATETIME DEFAULT CURRENT_TIMESTAMP,
+    Tentatives_connexion INT DEFAULT 0,
+    Bloque_jusqua DATETIME NULL
+);
+4.2 AUDIT_ADMIN (Journal des actions)
+sql
+CREATE TABLE AUDIT_ADMIN (
+    Id_audit INT PRIMARY KEY AUTO_INCREMENT,
+    Id_admin INT,
+    Action VARCHAR(50) NOT NULL,  -- Ex: 'CONNEXION', 'SUPPRESSION'
+    Details TEXT,
+    Adresse_ip VARCHAR(45),
+    Date_heure DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (Id_admin) REFERENCES ADMIN(Id_admin)
+);
+5. Exemples d'Utilisation
+Insertion d'un administrateur :
+sql
+INSERT INTO ADMIN (Pseudo_admin, Mot_de_passe, Email_admin)
+VALUES (
+    'admin_system', 
+    '$2y$10$6Zh7ZcZ8z7Q1J7X5J8z3HuY9WcX8jz6vR1Xb2V3cD4E5F6G7H8I9J',  -- Hash BCrypt
+    'admin@site.com'
+);
+Requête pour le dashboard :
+sql
+-- Nombre d'actes créés ce mois
+SELECT 
+    (SELECT COUNT(*) FROM EXTRAIT_NAISSANCE WHERE MONTH(Date_etablissement) = MONTH(NOW())) AS Naissances,
+    (SELECT COUNT(*) FROM ACTE_MARIAGE WHERE MONTH(Date_mariage) = MONTH(NOW())) AS Mariages,
+    (SELECT COUNT(*) FROM ACTE_DECES WHERE MONTH(Date_deces) = MONTH(NOW())) AS Deces;
+🔑 Fonctionnalités Clés
+Admin unique : Plus de hiérarchie, tous les admins ont les mêmes droits.
+
+Sécurité :
+
+Hachage BCrypt pour les mots de passe.
+
+Journalisation complète des actions (AUDIT_ADMIN).
+
+Blocage après 5 tentatives échouées (via trigger).
+
+sql
+DELIMITER //
+CREATE TRIGGER trg_block_after_failed_attempts
+BEFORE UPDATE ON ADMIN
+FOR EACH ROW
+BEGIN
+    IF NEW.Tentatives_connexion >= 5 THEN
+        SET NEW.Bloque_jusqua = NOW() + INTERVAL 1 HOUR;
+    END IF;
+END//
+DELIMITER ;
+📊 Structure Finale
+Schéma Final
+(Visualisation conceptuelle - À adapter avec vos outils de modélisation)
+
+Ce schéma prêt à l'emploi répond à toutes vos spécifications récentes. Personnalisable selon vos besoins ! 🚀
+
