@@ -1,0 +1,117 @@
+
+body {
+  margin: 0;
+  height: 100vh;
+  background: linear-gradient(to right, #ffffff, #ff6600);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow: hidden;
+}
+
+
+.auth-container {
+  display: flex;
+  width: 95%;
+  max-width: 1000px;
+  height: 520px; 
+}
+
+
+.auth-box {
+  flex: 1;
+  padding: 25px;
+  border-radius: 2px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+
+.orange-bg {
+  background-color: #ff6600;
+}
+
+.white-bg {
+  background-color: #fff;
+}
+
+
+.digiciv {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.form_enr {
+  color: #ff6600;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.mot_de_connexion {
+  font-size: 14px;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.formulaire {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+label {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+input, select {
+  height: 28px;
+  border-radius: 5px;
+  border: 2px solid #f0f0f0;
+  padding: 2px 8px;
+  font-size: 13px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Boutons */
+.btn-auth {
+  margin-top: 10px;
+  width: 140px;
+  height: 32px;
+  font-weight: bold;
+  border-radius: 15px;
+  font-size: 14px;
+  align-self: center;
+  border: none;
+  cursor: pointer;
+}
+
+.soumettre {
+  background-color: #ff6600;
+  color: white;
+}
+.btn-auth.soumettre{
+    margin-bottom: 5px;
+}
+
+.soumettre:hover {
+  background-color: #e55c00;
+}
+
+.se_connecter {
+  background-color: transparent;
+  border: 2px solid white;
+  color: white;
+}
+
+.se_connecter:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
