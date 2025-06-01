@@ -6,7 +6,7 @@ define('BASE_URL', '/mvc_projet');
 $controller = $_GET['page'] ?? 'home';
 $action     = $_GET['action'] ?? 'index';
 
-$controllerFile = "controller/{$controller}.php";
+$controllerFile = "controller/{$controller}Controller.php";
 
 if (file_exists($controllerFile)) {
     require_once $controllerFile;

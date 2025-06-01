@@ -1,7 +1,7 @@
 <?php
 function getConnection() {
     $host = 'localhost';
-    $dbname = 'mvc_db';
+    $dbname = 'digiciv';
     $user = 'root';
     $pass = '';
 

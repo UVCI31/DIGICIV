@@ -15,13 +15,13 @@
       <h2 class="digiciv">Digiciv</h2>
       <h4 class="mt-3">Heureux de vous revoir !</h4>
       <p class="mot_de_connexion">Connecte-toi pour faire ta demande</p>
-      <form>
+      <form action="index.php?page=home&action=login" method="POST">
         <div class="formulaire">
-          <label for="nom Complet">Numero de telephone</label>
-          <input type="text" id="tel_conn" placeholder="Ecrivez ici">
-          
-          <label for="mdp_conn">Mot de passe</label>
-          <input type="password" id="mdp_conn" placeholder="Ecrivez ici">
+          <label for="Numero de telephone">Numero de telephone</label>
+          <input type="text" name="tel_conn" placeholder="Ecrivez ici">
+
+          <label for="mot de passe">Mot de passe</label>
+          <input type="password" name="mdp_conn" placeholder="Ecrivez ici">
           
           <button type="submit" class="btn-auth se_connecter">Se connecter</button>
         </div>
@@ -30,31 +30,36 @@
 
     <!-- Formulaire Inscription -->
     <div class="auth-box white-bg">
-      <h4 class="form_enr">Nouveau par ici ?<br>Crée ton compte Digiciv !</h4>
-      <form>
+      <h4 class="form_enr">Crée ton compte Digiciv !</h4>
+      <form action="index.php?page=home&action=register" method="POST">
         <div class="formulaire">
-          <label for="nom et prenom"></label>
-          <input type="text" id="nom" placeholder=" Votre Nom complet">
 
-
+          <label for="nom"></label>
+          <input type="text" name="nom" placeholder=" Entrez votre Nom" required>
+          <label for="prenom"></label>
+          <input type="text" name="prenom" placeholder=" Entrez Votre prenom" required>
 
           <label for="sexe">Sexe</label>
-          <select id="sexe">
-            <option>M</option>
-            <option>F</option>
+          <select name="sexe">
+            <option value=""></option>
+            <option  value="M">M</option>
+            <option value="F">F</option>
           </select>
 
-          <label for="email"></label>
-          <input type="email" id="email" placeholder="Votre email">
+          <label for="email">email</label>
+          <input type="email" name="email" placeholder="Entrez votre email" required>
 
-          <label for="mdp"></label>
-          <input type="password" id="mdp" placeholder="Créer un mot de passe">
+          <label for="tel">Numero de telephone</label>
+          <input type="tel" name="tel" placeholder="Entrez votre numero de telephone" required>
+
+          <label for="Mot de passe">Mot de passe</label>
+          <input type="password" name="mdp"  placeholder="Créer un mot de passe" required>
 
           <label for="confirm"></label>
-          <input type="password" id="confirm" placeholder="Confirmer le mot de passe">
+          <input type="password" name="confirm"  placeholder="Confirmer le mot de passe" required>
 
-          <label for="date"></label>
-          <input type="date" id="date" placeholder="Date de naissance">
+          <label for="date">Date de naissance</label>
+          <input type="date" name="date_naiss" placeholder="Date de naissance" required>
 
           <button type="submit" class="btn-auth soumettre">Valider</button>
         </div>
