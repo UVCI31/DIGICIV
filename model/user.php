@@ -31,9 +31,3 @@ function getUserByTel($tel) {
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-//FONCTION DE DECONNECTION 
-function logout_action() {
-    session_destroy();
-    header('Location: index.php?page=home');
-    exit;
-}

@@ -1,3 +1,13 @@
+<?php
+// Vérifie que l'admin est connecté
+if (!isset($_SESSION['user']['Role']) || $_SESSION['user']['Role'] !== 'admin') {
+    header('Location: index.php?page=home'); 
+    exit;
+}
+
+$nomComplet = $_SESSION['user']['prenom'] . ' ' . $_SESSION['user']['nom'];
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,11 +15,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Digiciv Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="./assets/css/style.css" />
 </head>
 
 
 <body>
+    <header class="bg-white shadow-sm p-3">
+  <div class="container-fluid d-flex justify-content-between align-items-center flex-wrap">
+    
+    <!-- Menu + Titre -->
+    <div class="d-flex align-items-center gap-3">
+      <i class="fas fa-bars fa-lg text-secondary" id="menu-ad" style="cursor: pointer;"></i>
+      <span class="fs-5 fw-bold text-dark">Dashboard</span>
+    </div>
+
+   
+    <div class="position-relative" style="max-width: 300px;">
+      <input type="text" class="form-control ps-5 rounded-pill shadow-sm" placeholder="Rechercher...">
+      <i class="fas fa-search position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
+    </div>
+
+
+
+   
+    <div class="d-flex align-items-center gap-2">
+      <span class="fw-semibold text-dark"><?php echo htmlspecialchars($nomComplet); ?></span>
+      <i class="fas fa-user-circle fa-xl text-warning"></i>
+    </div>
+
+   
+    <div class="d-flex align-items-center gap-2">
+      <img src="./assets/images/Coat_of_arms_of_Côte_d_Ivoire__1997-2001_variant_.svg-removebg-preview.png" alt="logo-cote" class="img-fluid" style="height: 40px;">
+      <img src="./assets/images/san-pedro-removebg-removebg-preview.png" alt="logo san-pedro" class="img-fluid" style="height: 40px;">
+    </div>
+
+  </div>
+</header>
 
   <div class="menu-lateral">
          <h3 class="digi-logo">Digiciv</h3>
@@ -22,7 +64,7 @@
                 <img src="./assets/images/document blanc (1).png" alt="doc en attentes" class="ic-da">
                  Demande traitée</a></li>
             <li class="li-ad">
-               <a href="datatable.html"><img src="./assets/images/validation blanc (1).png" alt="doc validés" class="ic-v"> Demande en attente</a></li>
+               <a href="datatable.php"><img src="./assets/images/validation blanc (1).png" alt="doc validés" class="ic-v"> Demande en attente</a></li>
             <li class="li-ad">
                <a href="#"><img src="./assets/images/error blanc .png" alt="doc rejetés" class="ic-r"> Demande en rejetée</a></li>
             <li class="li-ad">
@@ -30,32 +72,7 @@
          </ul>
          </nav>
        </div>
-    <header >
-      <div class="d-flex ">
-       
-       <div class="d-flex justify-content-between align-items-center px-3 barmenu">
-         <div class="d-flex">
-        
-        <img src="./assets/images/burger-bar.png" alt="menu admin" class="menu-ad" id="menu-ad">
-        <p class="dashboard">Dashboard</p>
-     </div>
-     <div class="recherche">
-        <img src="./assets/images/search.png" alt="" class="search">
-        <input type="search" id="search" placeholder="rechercher">
-     </div>
-     <div class="d-flex admin">
-        <p id="nom-ad">Nom Admin</p>
-        <img src="./assets/images/user (1)orange.png" alt="compte admin" class="user-ad">
-     </div>
-     <div>
-        <img src="./assets/images/Coat_of_arms_of_Côte_d_Ivoire__1997-2001_variant_.svg-removebg-preview.png" alt="logo-cote" class="ci-logo">
-        <img src="./assets/images/san-pedro-removebg-removebg-preview.png" alt="logo san-pedro" class="sp-logo">
-     </div>
 
-       </div>
-      </div>
-     
-    </header>
     
    <div class="d-block conteneur-rect">
       <div class="d-flex align-items-center justify-content-center rect">

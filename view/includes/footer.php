@@ -36,5 +36,5 @@
     </div>
   </div>
    <p class="copy">    Copyright &copy;, Avril 2025, Tous droits réservés.</p>
+   <script src="./assets/js/script.js"></script
 </footer>
-<script src="./assets/js/script.js"></script

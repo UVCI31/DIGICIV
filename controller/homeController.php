@@ -1,7 +1,21 @@
 <?php
 function index_action() {
-    require 'view/home.php';
+    require_once 'view/home.php';
 }
+require_once 'model/auth.php';
+//FONCTION DE DECONNECTION 
+function logout_action() {
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    // Vider toutes les variables de session
+    $_SESSION = [];
+    session_destroy();
+    header('Location: index.php?page=home');
+    exit;
+}
+//fonction d inscription
 function register_action() {
     require_once 'model/user.php';
 
@@ -33,10 +47,15 @@ function register_action() {
 
         $success = registerUser($nom, $prenom, $sexe, $email, $mdp_hach,$tel, $date_naissance);
         if ($success) {
-            echo "Inscription réussie !";
-            $user_id = $pdo->lastInsertId();
-            $_SESSION['Nom_utilisateur'] = $nom;
-            $_SESSION['prenoms_utilisateur'] = $prenom;
+            $user = getUserByTel($tel);
+            $_SESSION['user'] = [
+                'Id' => $user['id_utilisateur'],
+                'nom' => $user['nom'],
+                'prenom' => $user['prenom'],
+                'role' => $user['Role'],
+            ];
+            header('Location: index.php?page=Accueil');
+            exit;
         } else {
             echo "Erreur lors de l'inscription.";
         }
@@ -55,22 +74,15 @@ function login_action() {
         $user = getUserByTel($tel);
 
         if ($user && password_verify($mdp, $user['mot_de_passe'])) {
-            $_SESSION['user'] = $user;
+            //Stockage des donne en session dans la variable user via la fonction getUser
+            $_SESSION['user']=$user;
+            $_SESSION['user_id']=$user['id_utilisateur'];
             
+            echo "Bienvenue " . htmlspecialchars($user['prenom']) . " " . htmlspecialchars($user['nom']);
             //on redirige l utilisateur selon son role
             if(isset($user['Role']) && $user['Role']==='admin'){
-            
-                // Stocker l'ID et le nom dans la session
-                $_SESSION['id_utilisateur'] = $user_id;
-                $_SESSION['Nom_utilisateur'] = $nom;
-                $_SESSION['prenoms_utilisateur'] = $prenom;
                 header('Location: index.php?page=dashbordAdmin');
             }else{
-                $user_id = $pdo->lastInsertId();
-
-                // Stocker l'ID et le nom dans la session
-                $_SESSION['user_id'] = $user_id;
-                $_SESSION['user_nom'] = $nom;
             header('Location: index.php?page=Accueil');
             }
             exit;

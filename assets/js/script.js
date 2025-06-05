@@ -56,6 +56,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
   
 });
+// alert de confirmation pour le bouton
+const bouton = document.getElementById('btn-paiement'); 
+bouton.addEventListener('click', () => {
+  if (confirm('Êtes-vous sûr vous serrez debité de 500 fcfa ?')) {
+    // Code à exécuter si l'utilisateur confirme
+  } else {
+    // Code à exécuter si l'utilisateur annule
+  }
+});
 
 
 
