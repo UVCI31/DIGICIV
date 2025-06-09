@@ -89,8 +89,8 @@ CREATE TABLE TIMBRE (
         (Id_extrait IS NOT NULL AND Id_acte_mariage IS NULL AND Id_acte_deces IS NULL) OR
         (Id_extrait IS NULL AND Id_acte_mariage IS NOT NULL AND Id_acte_deces IS NULL) OR
         (Id_extrait IS NULL AND Id_acte_mariage IS NULL AND Id_acte_deces IS NOT NULL)
-    )
-);
+    )  Tu veux créer une contrainte CHECK appelée CHK_Usage pour t'assurer que dans ta table, un seul des trois champs (Id_extrait, Id_acte_mariage, Id_acte_deces) soit renseigné à la fois. C’est une excellente pratique pour éviter les doublons logiques dans des systèmes d’état civil (naissance, mariage, décès).
+); 
 4. Administration Simplifiée
 4.1 ADMIN (Rôle unique)
 sql
