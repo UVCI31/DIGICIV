@@ -1,0 +1,547 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    list-style: none;
+  }
+  
+  .accueil {
+    width: 100%;
+    max-height: 500px;
+    object-fit: cover;
+    display: block;
+  }
+  
+  .en-tete {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 90px;
+    background-color: #ff6600ea;
+    z-index: 2;
+  }
+  
+  .logoci{
+    width: 54px;
+    height: 45px;
+    margin-top: -3px;
+  }
+  .logosp {
+    width: 56px;
+    height: 52px;
+    margin-top: -3px;
+
+  }
+  .logosdroite{
+    gap: 6px;
+  }
+  .logoprincip{
+    font-size: 30px;
+    font-weight: "bold";
+  }
+  
+  .menu .nav {
+    gap: 1rem;
+  }
+  
+  .menu .nav-link {
+    font-weight: 500;
+  }
+ .degrade{
+  position: relative;
+  width: 100%;
+  height: auto;
+}  
+  .degrade::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right,
+      rgba(255, 102, 0, 0.21) 0%,
+      rgba(255, 102, 0, 0.75) 100%
+    );
+    z-index: 1;
+    pointer-events: none;
+  }
+  .callToAction {
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    transform: translateY(-50%);
+    color: white;
+    z-index: 2;
+    max-width: 400px;
+}
+.btn-degrade {
+    background-color:#149414 ;
+}
+.btn.btn-submit{
+  background-color: #149414;
+  width: 200px;
+  color: white;
+}    
+.btn.btn-submit:hover{
+  color: #149414;
+  border: 2px solid #149414;
+}
+.bouton{
+  text-align: right;
+  margin: 5px;
+  padding: 3px;
+}
+.bouton a:hover{
+  border:  2px solid #149414;
+}
+.arondi{
+    background: #D9D9D9;
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+.icone{
+   width: 75px;
+   height: 75px;
+   object-fit: contain;
+}
+  .avantages{
+   background: #d9d9d980;
+   padding: 30px 0;;
+  }
+  .illustration{
+    display: flex;
+    align-items: center;
+    background-color: #d9d9d980;
+    height: 300px;
+  }
+
+  video{
+    width: 500px;
+    height: auto;
+    margin-left: 200px;
+    margin-right: 35px;
+  }
+  h2{
+    color: #FF6600;
+  }
+  footer{
+    background-color: #FF6600;
+    width: 100%;
+    height: auto;
+  }
+  .footer-logo {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+  .footer-description {
+    margin-top: 10px;
+    font-size: 14px;
+  }
+
+  .liens ul {
+    padding: 0;
+  }
+  
+  .liens ul li {
+    margin-bottom: 5px;
+  }
+  
+  .liens ul li a {
+    color: white;
+    text-decoration: none;
+  }
+  
+  .liens ul li a:hover {
+    text-decoration: underline;
+  }
+  
+  footer .media {
+    margin-right: 10px;
+  }
+
+
+  .ci-footer {
+    width: 44px;
+    height: 35px;
+    gap: 4px;
+
+  
+  }
+  .sp-footer{
+    width: 45px;
+    height: 35px;
+    gap: 4px;
+
+  }
+  .ci-div,.sp-div>p{
+   font-size: x-small;
+  }
+.youtube{
+  width: 40px;
+  height: auto;
+  margin-top: 10px;
+} 
+.facebook{
+  width: 30px;
+  height: auto;
+  margin-bottom: 2px;
+  margin: 5px;
+}
+.gmail{
+  width: 30px;
+  height: auto;
+  margin: 10px;
+} 
+
+.desc{
+  margin-top: 10px;
+}
+.copy{
+  text-align: center;
+}
+/* Cacher le menuburger sur desktop */
+
+/* Afficher le menu normalement sur desktop */
+.menu {
+  display: block;
+}
+ .menuburger{
+    display: none;
+    width: 30px;
+  }
+ .btn{
+  background-color: #149414;
+ } 
+ .upload-area{
+  border: 2px dahed #aaaa;
+  padding: 30px;
+  text-align: center;
+  border-radius: 10px;
+  color: #aaa;
+  transition: background-color 0.3s;
+ }
+ .upload-area.dragover{
+  background-color: #e0f7fa;
+  border-color:  #00bcd4;
+ }
+
+/* À partir d'ici, tout ce qui est mobile */
+@media (max-width: 768px) {
+  
+  .menuburger{
+    display: block;
+    width: 25px;
+    margin-top: -13px;
+    cursor: pointer;
+  }
+
+  .menu {
+  display: none;
+  flex-direction: column;
+  background-color: #ff6600;
+  position: absolute;
+  top: 90px; /* sous l'en-tête */
+  right: 0;
+  width: 350px;
+  height: 400px;
+  z-index: 10;
+  padding: 1em;
+
+  }
+  .menu .nav {
+    flex-direction: column;
+    width: 100%;
+    align-items: flex-start;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .menu .nav-link {
+    display: block;
+    color: white !important;
+    text-decoration: none;
+    padding: 10px 15px;
+    text-align: right;
+  }
+  
+  .nav-item{
+    display: block;
+  }
+  .menu.active {
+    display: flex; /* s'affiche en colonne */
+   
+  }
+
+  .menu .nav-item {
+    width: 100%;
+    margin-bottom: 10px;
+    
+  }
+  
+  
+
+  /* Autres ajustements de footer (déjà présents) */
+  .row {
+    flex-direction: column;
+  }
+
+  .footer-logo,
+  .liens ul,
+  .gmail,
+  .youtube,
+  .facebook {
+    align-items: center;
+    text-align: center;
+  }
+
+  .liens ul {
+    align-items: center;
+  }
+
+  .gmail, .youtube, .facebook {
+    margin: 10px 5px;
+  }
+
+  .footer-description {
+    text-align: center;
+  }
+
+  .row.mt-3 {
+    justify-content: center;
+  }
+  .logos-droite {
+    order: -1; /* pour le mettre avant les autres si c'est une flexbox */
+    justify-content: flex-start; /* aligne à gauche */
+    margin-top: 10px;
+    visibility: hidden;
+  }
+
+  
+  
+  .logoprincip{
+   width: 100%;
+   font-size: 20px;
+   margin-left: -70px;
+  }
+  .callToAction{
+    align-items: center;
+    justify-content: center;
+    width: 190px;
+  }
+  h1 {
+  font-size: 13px;
+  font-variant: "regular";
+}
+
+.btntitre{
+  width: 6px;
+}
+.btn-degrade{
+  width: 80px;
+  height: auto ;
+  font-size: 8px;
+
+}
+h2 {
+  font-size: 13px;
+  font-variant: "regular";
+}
+video{
+  width: 190px;
+  margin: 6px;
+  padding: 2px;
+}
+.media{
+  align-items: center;
+  justify-content: center;
+}
+.youtube{
+  margin-bottom: 2px;
+}
+
+}
+
+/* PAGE CHOIX*/
+.extrait, 
+.mariage, 
+.deces{
+display: block;
+background: #ffff;
+box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+width: 800px;
+height: auto;
+margin: 20px;
+padding: 2px;
+
+
+}
+h3{
+  text-align: center;
+  padding: 5px;
+  margin: 5px;
+
+}
+.choix{
+  margin-top: 90px;
+  padding-top: 40px;
+}
+.doc{
+  position: relative;
+  width: 120px;
+  vertical-align: baseline; 
+  padding: 3px;
+  margin: 5px;
+  text-align: left;
+}
+.conteneur{
+  align-items: center;
+  justify-content: center;
+}
+.choix-section {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 30px;
+}
+#strong{
+  position: relative;
+  padding: 5px;
+  margin-left: 150px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  font-size: 25px;
+  padding-bottom: 5px;
+  padding-top: 10px;
+  text-align: left;
+}
+.titre-acte {
+  margin-top: 40px !important; 
+  margin-bottom: 30px;
+  text-align: center;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+.en-tete .et {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 90px;
+  background-color: #ff6600ea;
+  padding: 0 10px;
+  z-index: 2;
+}
+
+.R {
+  margin-top: 80px;
+  margin-left: 0;
+  padding: 0 10px;
+}
+
+.feuille,.feuille2 {
+    padding: 15px;
+  }
+ .div_acte {
+    flex-direction: column;
+  }
+
+  .feuille2 input {
+    font-size: 14px;
+  }
+
+  h2, h3, h4 {
+    font-size: 18px;
+  }
+/*.row{
+  width: 50%;
+}*/
+}
+/*PAGE RENSEIGNEMENT*/
+.feuille {
+  background: radial-gradient(circle, white 0%, #ff6600 100%);
+  padding: 20px;
+  width: 100%;
+  max-width: 800px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+}
+.feuille2 {
+  background: white;
+  width: 100%;
+  padding: 30px;
+}
+
+.feuille2 h3 {
+  text-align: left;
+  font-size: 24px;
+  color: #ff6600;
+  margin-bottom: 20px;
+}
+
+.R{
+  display: flex;
+  justify-content: center;
+  margin-top: 150px;
+}
+.acte{
+  padding: 5px;
+}
+h6{
+  padding: 2px;
+}
+
+.div_acte p,
+.cont_acte p,
+.infoper p {
+  flex: 1 1 100%;
+  margin-bottom: 10px;
+}
+
+
+
+/*************PAGE CONNEXION/INSCRIPTION*****************/
+
+
+
+.b2 {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(to right, white, #ff6600);
+
+  /* Ajout nécessaire pour centrer .sign */
+  display: flex;
+  justify-content: center; /* Centre horizontalement */
+  align-items: center;     /* Centre verticalement */
+}
+
+.sign {
+  display: flex;
+  text-align: center;
+  width: 800px;
+  height: 500px;
+  background-color: #e0f7fa;
+
+  /* Optionnel : pour que les deux divs soient séparés */
+  justify-content: space-around;
+  align-items: center;
+}
+
+.connexion, .inscription {
+  width: 300px;
+  height: 400px;
+  background-color: white;
+  border: 1px solid #ccc;
+}
+/* PAGE CONNEXION ET INSCRIPTION*/
