@@ -31,7 +31,7 @@
       <div class="dash-tr">
         <img src="./assets/images/validation (1)vert.png" alt="doc-tr" class="doc-tr">
         <h3 class="nb-d">1500</h3>
-        <p class="st">Demandes a traiter</p>
+        <p class="st">Demandes traiter</p>
       </div>
       <div class="dash-at">
         <img src="./assets/images/document vert(1).png" alt="doc-at" class="doc-at">

@@ -14,6 +14,8 @@ if (file_exists($controllerFile)) {
 
     if (function_exists($function)) {
         $function();
+    } elseif ($controller === 'demande' && $action === 'generer_pdf') {
+        generer_pdf_action();
     } else {
         http_response_code(404);
         echo "Erreur : action '$action' introuvable.";
