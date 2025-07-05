@@ -1,6 +1,7 @@
 <?php
 require_once 'model/Demande.php';
 require_once __DIR__ . '/../vendor/autoload.php';
+require_once 'pdf/pdfcreateur.php';
 
 function detail_action() {
     $id = $_GET['id'] ?? null;
@@ -18,10 +19,9 @@ function detail_action() {
         return;
     }
 
+    $demande['type_acte'] = $type;
     require 'view/demandeDetail.php';
 }
-
-//Generer le fichier pdf
 
 function generer_pdf_action() {
     $id = $_GET['id'] ?? null;
@@ -32,6 +32,7 @@ function generer_pdf_action() {
         return;
     }
 
+    //  On récupère la demande depuis la table demande_extrait
     $demande = getDemandeByIdAndType($id, $type);
 
     if (!$demande) {
@@ -39,18 +40,36 @@ function generer_pdf_action() {
         return;
     }
 
-    // Crée une instance TCPDF
-    $pdf = new TCPDF();
-    $pdf->AddPage();
-    $pdf->SetFont('helvetica', '', 12);
-
-    // Contenu du PDF
-    $html = '<h1>Détails de la demande</h1><ul>';
-    foreach ($demande as $champ => $valeur) {
-        $html .= '<li><strong>' . htmlspecialchars($champ) . ' :</strong> ' . htmlspecialchars((string)($valeur ?? '')) . '</li>';
+    //  On s'assure que le type est bien "extrait de naissance"
+    if (strtolower($type) !== 'extrait de naissance') {
+        echo "Seuls les extraits de naissance peuvent être générés.";
+        return;
     }
-    $html .= '</ul>';
 
-    $pdf->writeHTML($html, true, false, true, false, '');
-    $pdf->Output("demande_{$id}.pdf", 'I'); 
+    //  Vérification des deux champs nécessaires
+    $num_acte = $demande['numero_acte'] ?? null;
+    $num_registre = $demande['numero_registre'] ?? null;
+
+    if (!$num_acte || !$num_registre) {
+        echo "Numéro d'acte ou registre manquant dans la demande.";
+        return;
+    }
+
+    //  On cherche un extrait dans la table extrait avec les deux valeurs
+    $extrait = extraitExistePourDemande($id);
+
+    if (!$extrait) {
+        echo "Extrait inexistant. La demande n'a pas encore été traitée.";
+        return;
+    }
+
+    //  Génération du PDF depuis les données de l'extrait
+    $fileName = genererPdfDepuisExtrait($extrait);
+    enregistrerCheminPdf($extrait['num_extrait'], $fileName);
+
+    // Message de confirmation
+    echo "Extrait généré avec succès et disponible dans l’espace citoyen.";
+
+    // Mettre à jour le statut
+    marquerDemandeCommeTraitee($id, $type);
 }

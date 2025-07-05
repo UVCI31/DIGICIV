@@ -40,7 +40,7 @@
       <!-- Zone utilisateur connectée -->
       <div class="d-flex align-items-center text-white">
         <?php if (isset($_SESSION['user'])): ?>
-          <a href="index.php?page=profil" class="d-flex align-items-center text-white text-decoration-none">
+          <a href="index.php?page=dashboardCitoyen" class="d-flex align-items-center text-white text-decoration-none">
           <i class="bi bi-person-circle" style="font-size: 1.5rem; margin-right: 8px;"></i>
             <span><?= htmlspecialchars($_SESSION['user']['prenom'] . ' ' . $_SESSION['user']['nom']) ?></span>
           </a>

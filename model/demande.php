@@ -1,7 +1,8 @@
 <?php
 require_once 'model/database.php';
-//
-function getDemandesEnAttentePaginated($limit, $offset) {
+//pagination des demande en attente
+function getDemandesEnAttentePaginated($limit, $offset)
+{
     $pdo = getConnection();
     $sql = "
         SELECT id_demande, 'Extrait de naissance' AS type_acte, date_demande FROM demande_extrait WHERE statut = 'en_attente'
@@ -21,7 +22,8 @@ function getDemandesEnAttentePaginated($limit, $offset) {
 }
 
 //fonction pour compter le nombre total de demande
-function getTotalDemandesEnAttente() {
+function getTotalDemandesEnAttente()
+{
     $pdo = getConnection();
 
     $sql = "
@@ -39,8 +41,9 @@ function getTotalDemandesEnAttente() {
 }
 
 
-//
-function getDemandesTraiter() {
+// recuperation des demandes traiter
+function getDemandesTraiter()
+{
     $pdo = getConnection();
 
     $sql = "
@@ -56,8 +59,9 @@ function getDemandesTraiter() {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-//
-function getDemandesRejete() {
+//recuperation des demandes rejeter
+function getDemandesRejete()
+{
     $pdo = getConnection();
 
     $sql = "
@@ -74,19 +78,21 @@ function getDemandesRejete() {
 }
 
 
-function getDemandesEnAttente() {
+function getDemandesEnAttente()
+{
     $pdo = getConnection();
     $sql = "SELECT id, type_acte FROM demande WHERE statut = 'en_attente'";
     $stmt = $pdo->prepare($sql);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
-//fonction pour recuperer les demande
-function getDemandeByIdAndType($id, $type) {
+//fonction pour recuperer les demande par id et type
+function getDemandeByIdAndType($id, $type)
+{
     $pdo = getConnection();
     $table = '';
 
-    switch ($type) {
+    switch (strtolower($type)) {
         case 'extrait de naissance':
             $table = 'demande_extrait';
             break;
@@ -106,28 +112,97 @@ function getDemandeByIdAndType($id, $type) {
     $stmt->execute();
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
-//fonction pour recuperer les demande
-function getDemandesCitoyen($userId) {
+
+//fonction pour recuperer les demande par utilisateur
+
+function getDemandesParUtilisateur($idUtilisateur)
+{
     $pdo = getConnection();
 
     $sql = "
-        SELECT id_demande, 'Extrait de naissance' AS type_acte, statut, document_pdf
-        FROM demande_extrait WHERE id_ut = :id
+        SELECT id_demande, 'Extrait de naissance' AS type_acte, statut, document_joint_path
+        FROM demande_extrait
+        WHERE id_utilisateur = :id
+        
         UNION ALL
-        SELECT id_demande, 'Acte de mariage' AS type_acte, statut, document_pdf
-        FROM demande_acte_mariage WHERE id_ut = :id
+
+        SELECT id_demande, 'Acte de mariage' AS type_acte, statut, document_joint_path
+        FROM demande_acte_mariage
+        WHERE id_utilisateur = :id
+
         UNION ALL
-        SELECT id_demande, 'Acte de décès' AS type_acte, statut, document_pdf
-        FROM demande_deces WHERE id_ut = :id
+
+        SELECT id_demande, 'Acte de décès' AS type_acte, statut, document_joint_path
+        FROM demande_deces
+        WHERE id_utilisateur = :id
     ";
 
     $stmt = $pdo->prepare($sql);
-    $stmt->bindValue(':id', $userId, PDO::PARAM_INT);
+    $stmt->bindValue(':id', $idUtilisateur, PDO::PARAM_INT);
     $stmt->execute();
 
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+//fonction recuperer l extrait
 
+function extraitExistePourDemande($id_demande)
+{
+    $pdo = getConnection();
 
+    $sql = "
+        SELECT extrait_naissance.*
+        FROM demande_extrait
+        JOIN extrait_naissance
+        ON demande_extrait.numero_acte = extrait_naissance.num_acte
+        WHERE demande_extrait.id_demande = :id_demande
+    ";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':id_demande', $id_demande, PDO::PARAM_INT);
+    $stmt->execute();
+
+    return $stmt->fetch(PDO::FETCH_ASSOC); 
+}
+
+//LA fonction pour marquer la demande comme traiter
+function marquerDemandeCommeTraitee($id, $type) {
+    $pdo = getConnection();
+
+    switch (strtolower($type)) {
+        case 'extrait de naissance':
+            $table = 'demande_extrait';
+            break;
+        case 'acte de mariage':
+            $table = 'demande_acte_mariage';
+            break;
+        case 'acte de décès':
+            $table = 'demande_deces';
+            break;
+        default:
+            return false;
+    }
+
+    $sql = "UPDATE $table 
+            SET statut = 'traiter', 
+                date_traitement = NOW(), 
+                traite_par = :admin 
+            WHERE id_demande = :id";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+    $stmt->bindValue(':admin', $_SESSION['admin']['nom'] ?? 'inconnu');
+    
+    return $stmt->execute();
+}
+//ENREGISTRER LE PDF GENERER DANS LA TABLE EXTRAIT
+function enregistrerCheminPdf($num_extrait, $fileName) {
+    $pdo = getConnection();
+    $sql = "UPDATE extrait SET pdf = :pdf WHERE num_extrait = :num_extrait";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        ':pdf' => $fileName,
+        ':num_extrait' => $num_extrait
+    ]);
+}
 
 

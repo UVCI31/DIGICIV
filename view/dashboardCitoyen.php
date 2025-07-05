@@ -1,5 +1,3 @@
-<?php require 'view/includes/sidebarCitoyen.php'; ?>
-<?php require 'view/includes/headerCitoyen.php'; ?>
 
 <div class="container mt-4">
   <h2>Mes demandes</h2>
@@ -19,6 +17,7 @@
           <td><?= htmlspecialchars($demande['type_acte']) ?></td>
           <td><?= htmlspecialchars($demande['statut']) ?></td>
           <td>
+
             <?php if ($demande['statut'] === 'traiter' && !empty($demande['document_pdf'])): ?>
               <a href="uploads/<?= htmlspecialchars($demande['document_pdf']) ?>" class="btn btn-sm btn-success" download>Télécharger</a>
             <?php else: ?>

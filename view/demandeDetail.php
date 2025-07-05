@@ -11,7 +11,6 @@
       </li>
     <?php endforeach; ?>
   </ul>
-
  <a href="index.php?page=demande&action=generer_pdf&id=<?= urlencode($demande['id_demande']) ?>&type=<?= urlencode(strtolower($demande['type_acte'] ?? '')) ?>" class="btn btn-success mt-3">
   Générer en PDF
 </a>

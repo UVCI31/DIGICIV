@@ -44,8 +44,8 @@
                   <input type="date" name="date_acte" class="form-control" />
                 </div>
                 <div class="col-md-4 mb-3">
-                  <label class="form-label">Numéro de registre</label>
-                  <input type="text" name="numero_registre" class="form-control" placeholder="R XX" />
+                  <label class="form-label" >Numéro de registre</label>
+                  <input type="text" name="numero_registre" class="form-control" placeholder="R XX" required/>
                 </div>
               </div>
             </div>

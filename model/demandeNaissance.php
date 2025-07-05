@@ -6,7 +6,7 @@ function enregistrerDemande($data, $fileName)
     $db = getConnection();
 
     $sql = "INSERT INTO demande_extrait (id_utilisateur, nom, prenoms, date_naissance, lieu_naissance, 
-            numero_acte, date_acte, numero_registre, nom_pere, prenoms_pere, nom_mere, prenoms_mere, fichier)
+            numero_acte, date_acte, numero_registre, nom_pere, prenoms_pere, nom_mere, prenoms_mere, document_joint_path)
             VALUES (:id_utilisateur, :nom, :prenoms, :date_naissance, :lieu_naissance,
                     :numero_acte, :date_acte, :numero_registre, :nom_pere, :prenoms_pere, :nom_mere, :prenoms_mere, :fichier)";
     
